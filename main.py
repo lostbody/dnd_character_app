@@ -23,8 +23,9 @@ class Dnd_character(object):
         self.Wisdom = Wisdom
         self.Charisma = Charisma
         self.HP = HP
-        self.Equipment = Equipment
         Equipment = []
+        self.Equipment = Equipment
+
 
 def create_character():
 
@@ -33,34 +34,34 @@ def create_character():
     character = Dnd_character(None, None, None, None, None, None, None, None, None, None, [])
 
     Name = raw_input("Name" + ": ")
-    setattr(character, "Name", Name)
+    character.Name = Name
 
     Race = raw_input("Race" + ": ")
-    setattr(character, "Race", Race)
+    character.Race = Race
 
     Class = raw_input("Class" + ": ")
-    setattr(character, "Class", Class)
+    character.Class = Class
 
     Strength = raw_input("Strength" + ": ")
-    setattr(character, "Strength", Strength)
+    character.Strength = Strength
 
     Dexterity = raw_input("Dexterity" + ": ")
-    setattr(character, "Dexterity", Dexterity)
+    character.Dexterity = Dexterity
 
     Constitution = raw_input("Constitution" + ": ")
-    setattr(character, "Constitution", Constitution)
+    character.Constitution = Constitution
 
     Intelligence = raw_input("Intelligence" + ": ")
-    setattr(character, "Intelligence", Intelligence)
+    character.Intelligence = Intelligence
 
     Wisdom = raw_input("Wisdom" + ": ")
-    setattr(character, "Wisdom", Wisdom)
+    character.Wisdom = Wisdom
 
     Charisma = raw_input("Charisma" + ": ")
-    setattr(character, "Charisma", Charisma)
+    character.Charisma = Charisma
 
     HP = raw_input("HP" + ": ")
-    setattr(character, "HP", HP)
+    character.HP = HP
 
     global Equipment
 
@@ -70,13 +71,12 @@ def create_character():
         try:
             equipment_item = raw_input("Equipment" + ": ")
             Equipment.append(equipment_item)
-            setattr(character, "Equipment", Equipment)
 
         except KeyboardInterrupt:
             break
 
-    # character_traits = vars(character)
-    # print character_traits.values()
+        setattr(character, "Equipment", Equipment)
+
 
     write_dnd_character('characters/' + character.Name + ".dnd")
 
@@ -128,22 +128,19 @@ def read_dnd_character(dnd_file):
         content = f.readlines()
 
         lines = [line.strip() for line in content]
-        setattr(character, "Name", lines[0])
-        setattr(character, "Race", lines[1])
-        setattr(character, "Class", lines[2])
-        setattr(character, "Strength", lines[3])
-        setattr(character, "Dexterity", lines[4])
-        setattr(character, "Constitution", lines[5])
-        setattr(character, "Intelligence", lines[6])
-        setattr(character, "Wisdom", lines[7])
-        setattr(character, "Charisma", lines[8])
-        setattr(character, "HP", lines[9])
+        character.Name = lines[0]
+        character.Race =lines[1]
+        character.Class = lines[2]
+        character.Strength = lines[3]
+        character.Dexterity = lines[4]
+        character.Constitution = lines[5]
+        character.Intelligence = lines[6]
+        character.Wisdom = lines[7]
+        character.Charisma = lines[8]
+        character.HP = lines[9]
     # line 10 onwards there is one equip.item in each line
-        global Equipment
 
-        Equipment = lines[10:]
-
-        setattr(character, "Equipment", Equipment)
+        character.Equipment = lines[10:]
 
     print "reading character file '%s'" % dnd_file
 
@@ -189,7 +186,6 @@ def modify_character(dnd_file):
 
         print "trait updated\n"
         write_dnd_character(dnd_file)
-
 
     elif choice == "back":
         print "Back to Main menu"
@@ -286,9 +282,9 @@ def edit_equipment(dnd_file):
 
         new_item = (raw_input("Enter new item: "))
 
-        Equipment.append(new_item)
+        character.Equipment.append(new_item)
 
-        setattr(character, "Equipment", Equipment)
+        # setattr(character, "Equipment", Equipment)
 
         print "equipment updated\n%s\nBack to Main menu\n" % character.Equipment
 
@@ -307,7 +303,7 @@ def edit_equipment(dnd_file):
 
         if int(chosen_item) in range(0, len(character.Equipment)):
             print "you chose to remove: %s" % character.Equipment[int(chosen_item)]
-            character.Equipment.pop(int(chosen_item)-1)
+            character.Equipment.pop(int(chosen_item))
 
         print "equipment updated\n%s\nBack to Main menu\n" % character.Equipment
         write_dnd_character(dnd_file)
