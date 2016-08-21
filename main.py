@@ -23,7 +23,6 @@ class Dnd_character(object):
         self.Wisdom = Wisdom
         self.Charisma = Charisma
         self.HP = HP
-        Equipment = []
         self.Equipment = Equipment
 
 
@@ -63,9 +62,6 @@ def create_character():
     HP = raw_input("HP" + ": ")
     character.HP = HP
 
-    Equipment = []
-    character.Equipment = Equipment
-
     print "Enter equipment item and press 'Enter'.When you are done press 'Control+C'\n"
     while True:
         try:
@@ -75,7 +71,6 @@ def create_character():
         except KeyboardInterrupt:
             break
 
-        setattr(character, "Equipment", Equipment)
 
 
     write_dnd_character('characters/' + character.Name + ".dnd")
