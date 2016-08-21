@@ -63,14 +63,14 @@ def create_character():
     HP = raw_input("HP" + ": ")
     character.HP = HP
 
-    global Equipment
-
     Equipment = []
+    character.Equipment = Equipment
+
     print "Enter equipment item and press 'Enter'.When you are done press 'Control+C'\n"
     while True:
         try:
             equipment_item = raw_input("Equipment" + ": ")
-            Equipment.append(equipment_item)
+            character.Equipment.append(equipment_item)
 
         except KeyboardInterrupt:
             break
