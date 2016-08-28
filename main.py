@@ -71,10 +71,7 @@ def create_character():
         except KeyboardInterrupt:
             break
 
-
-
     write_dnd_character('characters/' + character.Name + ".dnd")
-
 
 
 def write_dnd_character(dnd_file):
@@ -111,33 +108,23 @@ def update_list_for_chosing():
     for i in list_for_chosing:
         print i
 
+char_instances = []
 
 def read_dnd_character(dnd_file):
-
-    global character
-
-    character = Dnd_character(None, None, None, None, None, None, None, None, None, None, [])
 
     with open(dnd_file) as f:
 
         content = f.readlines()
 
         lines = [line.strip() for line in content]
-        character.Name = lines[0]
-        character.Race =lines[1]
-        character.Class = lines[2]
-        character.Strength = lines[3]
-        character.Dexterity = lines[4]
-        character.Constitution = lines[5]
-        character.Intelligence = lines[6]
-        character.Wisdom = lines[7]
-        character.Charisma = lines[8]
-        character.HP = lines[9]
-    # line 10 onwards there is one equip.item in each line
 
-        character.Equipment = lines[10:]
+        char_instance = Dnd_character(lines[0], lines[1], lines[2], lines[3], lines[4], lines[5], lines[6], lines[7],
+         lines[8], lines[9], lines[10:])
 
-    print "reading character file '%s'" % dnd_file
+    char_instances.append(char_instance)
+    return char_instance
+
+    # print "reading character file '%s'" % dnd_file
 
 
 
@@ -306,7 +293,23 @@ def edit_equipment(dnd_file):
     else:
         print "not an option. Back to Main menu"
 
-choose_character()
+# choose_character()
+
+files = os.listdir("characters")
+class_dict = dict()
+i = 0
+
+for character_file in files:
+    read_dnd_character("characters/" + character_file)
+    class_dict[character_file] = char_instances[i]
+    i += 1
+
+# for i in range(0, len(dnd_instances)):
+#     class_dict[files[i]] = char_instances[i]
+
+print class_dict['obal.dnd'].Name
+print class_dict['olniki.dnd'].Dexterity
+print class_dict.items()
 
 # create_character()
 # write_dnd_character("characters/" + 'babis.dnd')
