@@ -10,6 +10,7 @@ traits_names = ['Name', 'Race', 'Class',
                 'HP', 'Equipment']
 
 
+
 class Dnd_character(object):
 
     def __init__(self, Name, Race, Class, Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma, HP, Equipment):
@@ -74,9 +75,9 @@ def create_character():
     write_dnd_character('characters/' + character.Name + ".dnd")
 
 
-def write_dnd_character(dnd_file):
+def write_dnd_character(character_file):
 
-    with open(dnd_file, 'w+') as f:
+    with open(character_file, 'w+') as f:
         f.writelines(character.Name + "\n")
         f.writelines(character.Race + "\n")
         f.writelines(character.Class + "\n")
@@ -110,9 +111,9 @@ def update_list_for_chosing():
 
 char_instances = []
 
-def read_dnd_character(dnd_file):
+def read_dnd_character(character_file):
 
-    with open(dnd_file) as f:
+    with open(character_file) as f:
 
         content = f.readlines()
 
@@ -124,11 +125,11 @@ def read_dnd_character(dnd_file):
     char_instances.append(char_instance)
     return char_instance
 
-    # print "reading character file '%s'" % dnd_file
+    # print "reading character file '%s'" % character_file
 
 
 
-def show_character(dnd_file):
+def show_character(character_file):
 
     print "Name" + ": " + character.Name
     print "Race" + ":" + character.Race
@@ -155,7 +156,7 @@ def edit_character_menu():
         print i, "--> ", j, "\n"
 
 
-def modify_character(dnd_file):
+def modify_character(character_file):
 
     print "\nChoose a trait to modify or write 'back' to go back to main_menu:\n"
     edit_character_menu()
@@ -167,7 +168,7 @@ def modify_character(dnd_file):
         setattr(character, traits_names[int(choice)], newtrait_value)
 
         print "trait updated\n"
-        write_dnd_character(dnd_file)
+        write_dnd_character(character_file)
 
     elif choice == "back":
         print "Back to Main menu"
@@ -176,7 +177,7 @@ def modify_character(dnd_file):
         print "not an option. Back to Main menu"
 
 
-def exit(dnd_file):
+def exit(character_file):
 
     sys.exit(0)
 
@@ -202,8 +203,7 @@ def choose_character():
             char_input = raw_input(">")
 
             if char_input in file_dict.keys():
-                global dnd_file
-                dnd_file = file_dict[char_input]
+                character_file = file_dict[char_input]
                 main_menu()
             elif char_input == 'new':
                 create_character()
@@ -221,7 +221,7 @@ def main_menu():
         while True:
             print "\nMAIN MENU\n"
 
-            read_dnd_character(dnd_file)
+            read_dnd_character(character_file)
 
             print "What do you want to do with this DnD character?\n"
             main_menu_options()
@@ -231,14 +231,14 @@ def main_menu():
             if choice in main_menu_dict.keys():
                 print "\nyou chose to:%s\n" % main_menu_dict[choice].__name__
 
-                main_menu_dict[choice](dnd_file)
+                main_menu_dict[choice](character_file)
             elif choice == 'back':
                 return
             else:
                 print "Not an option. Please choose one of the options or exit"
     except KeyboardInterrupt:
         print "got KeyboardInterrupt, exiting"
-        exit(dnd_file)
+        exit(character_file)
 
 
 def edit_equipment_menu():
@@ -252,7 +252,7 @@ def edit_equipment_menu():
     print "Equipment = %s" % character.Equipment
 
 
-def edit_equipment(dnd_file):
+def edit_equipment(character_file):
     print "How do you want to modify your equipment list?\n"
 
     edit_equipment_menu()
@@ -270,7 +270,7 @@ def edit_equipment(dnd_file):
 
         print "equipment updated\n%s\nBack to Main menu\n" % character.Equipment
 
-        write_dnd_character(dnd_file)
+        write_dnd_character(character_file)
 
     elif choice == "1":
         print "\nyou chose to:%s\n" % edit_equipment_dict[str(choice)]
@@ -288,12 +288,11 @@ def edit_equipment(dnd_file):
             character.Equipment.pop(int(chosen_item))
 
         print "equipment updated\n%s\nBack to Main menu\n" % character.Equipment
-        write_dnd_character(dnd_file)
+        write_dnd_character(character_file)
 
     else:
         print "not an option. Back to Main menu"
 
-# choose_character()
 
 files = os.listdir("characters")
 class_dict = dict()
@@ -304,14 +303,4 @@ for character_file in files:
     class_dict[character_file] = char_instances[i]
     i += 1
 
-# for i in range(0, len(dnd_instances)):
-#     class_dict[files[i]] = char_instances[i]
-
-print class_dict['obal.dnd'].Name
-print class_dict['olniki.dnd'].Dexterity
-print class_dict.items()
-
-# create_character()
-# write_dnd_character("characters/" + 'babis.dnd')
-# read_dnd_character("characters/" + 'obal.dnd')
-# show_character("characters/" + 'obal.dnd')
+choose_character()

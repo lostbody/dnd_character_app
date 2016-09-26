@@ -62,13 +62,14 @@ def roll_for_HP(num_rolls, dice):
     i = 0
     while i < num_rolls:
         rolled = random.randint(1, dice)
+        print rolled
         if rolled > 2:
             total_roll += rolled
             i += 1
         else:
             continue
 
-    return total_roll
+    print total_roll
 
 
 def create_random_character():
@@ -117,4 +118,5 @@ def create_random_character():
         print "Equipment :", character.Equipment[i]
 
 
-create_random_character()
+# create_random_character()
+roll_for_HP(1, 6)
