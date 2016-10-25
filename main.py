@@ -113,6 +113,31 @@ char_instances = []
 
 def read_dnd_character(character_file):
 
+    global character
+
+    character = Dnd_character(None, None, None, None, None, None, None, None, None, None, [])
+
+    with open(character_file) as f:
+
+        content = f.readlines()
+
+        lines = [line.strip() for line in content]
+        character.Name = lines[0]
+        character.Race =lines[1]
+        character.Class = lines[2]
+        character.Strength = lines[3]
+        character.Dexterity = lines[4]
+        character.Constitution = lines[5]
+        character.Intelligence = lines[6]
+        character.Wisdom = lines[7]
+        character.Charisma = lines[8]
+        character.HP = lines[9]
+    # line 10 onwards there is one equip.item in each line
+
+        character.Equipment = lines[10:]
+
+    print "reading character file '%s'" % character_file
+
     with open(character_file) as f:
 
         content = f.readlines()
@@ -123,6 +148,7 @@ def read_dnd_character(character_file):
          lines[8], lines[9], lines[10:])
 
     char_instances.append(char_instance)
+
     return char_instance
 
     # print "reading character file '%s'" % character_file
@@ -203,6 +229,7 @@ def choose_character():
             char_input = raw_input(">")
 
             if char_input in file_dict.keys():
+                global character_file
                 character_file = file_dict[char_input]
                 main_menu()
             elif char_input == 'new':
