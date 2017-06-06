@@ -69,6 +69,17 @@ class Player(object):
     def __init__(self, position):
         self.position = Position(position.row, position.col)
 
+    def get_roomInfo(self, position):
+
+        if player.position.row == dungeon.entrance.row and player.position.col == dungeon.entrance.col:
+            return "This is the Entrance"
+
+        elif player.position.row == dungeon.boss.row and player.position.col == dungeon.boss.col:
+            return "This is the Boss room"
+
+        else:
+            return ""    
+
 
 class Dungeon(object):
 
@@ -91,6 +102,8 @@ class Dungeon(object):
             options.remove('north')
         if position.row == self.max_size:
             options.remove('south')
+        if position.row == self.entrance.row and position.col == self.entrance.col:
+            options.append('exit')
         return options
 
 
@@ -390,18 +403,22 @@ def edit_equipment(character_file):
 
 
 def enter_dungeon(character_file):
-    print "You enter the dungeon!"
+    print "\nYou enter the dungeon!\n"
     global dungeon, position, player
     dungeon = Dungeon(4)
     position = dungeon.entrance
     player = Player(position)
     while True:
-        print "\nWhere do you want to go? Choose direction or press exit to leave the dungeon\n"
+       
+        print "\nyou are now at position: ", player.position
+        
+        print "\n", player.get_roomInfo(player.position)
+
+        print "Choose direction! Below are your options. You have the option to exit when you are in the Entrance room\n"
+
         print dungeon.get_directions(player.position)
 
-        print "you are now at position: ", player.position
-
-        chosen_move = raw_input(">")
+        chosen_move = raw_input(">\n")
 
         if chosen_move in options:
             if chosen_move == "west":
@@ -412,12 +429,11 @@ def enter_dungeon(character_file):
                 player.position.go_north()
             elif chosen_move == "south":
                 player.position.go_south()
-
-        elif chosen_move == "exit":
-            return
+            elif chosen_move == "exit":
+                return
 
         else:
-            print "Sorry you can't go that way"
+            print "\nSorry you can't go that way\n"
             continue
 
 
